@@ -2,7 +2,10 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="theme-color" content="#667eea">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="就活偏差値">
 <title>就活偏差値ランキング</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -33,7 +36,15 @@ h1 {
   margin-bottom: 24px;
   font-size: 14px;
 }
-.search-box { margin-bottom: 16px; }
+.search-box {
+  margin-bottom: 16px;
+  position: sticky;
+  top: 0;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background: #fff;
+  z-index: 20;
+}
 input[type="text"] {
   width: 100%;
   padding: 12px 14px;
@@ -122,9 +133,18 @@ input[type="text"]:focus { outline: none; border-color: #667eea; }
 .nav a:hover { background: #f6f8ff; }
 .nav a + a { margin-left: 6px; }
 @media (max-width: 600px) {
-  .container { padding: 20px; margin: 10px auto; }
-  h1 { font-size: 22px; }
-  .company { font-size: 12px; padding: 3px 8px; }
+  body { padding: 8px; }
+  .container { padding: 16px 14px; margin: 8px auto; border-radius: 12px; }
+  h1 { font-size: 20px; }
+  .subtitle { font-size: 11px; margin-bottom: 16px; }
+  .nav a { display: inline-block; margin: 3px 2px; padding: 7px 12px; font-size: 12px; }
+  .nav a + a { margin-left: 2px; }
+  input[type="text"] { font-size: 16px; padding: 11px 12px; }
+  .hensachi-group { padding: 12px 14px; }
+  .hensachi-label { font-size: 18px; }
+  .tier-marker { font-size: 11px; letter-spacing: 2px; padding: 8px; }
+  .company { font-size: 13px; padding: 6px 10px; min-height: 32px; display: inline-flex; align-items: center; }
+  .companies { gap: 6px; }
 }
 </style>
 </head>

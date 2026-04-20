@@ -2,7 +2,10 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="theme-color" content="#667eea">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="就活偏差値診断">
 <title>就活偏差値診断</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -320,10 +323,32 @@ button.primary:hover { opacity: 0.9; }
 .cta-button:hover { opacity: 0.9; }
 .cta-note { text-align: center; margin-top: 8px; font-size: 10px; color: #8d6e63; }
 @media (max-width: 600px) {
-  .container { padding: 20px; margin: 10px auto; }
-  .form-row, .form-row-3 { grid-template-columns: 1fr; }
-  .checkbox-grid { grid-template-columns: 1fr 1fr; }
+  body { padding: 8px; }
+  .container { padding: 18px 14px; margin: 8px auto; border-radius: 12px; }
+  h1 { font-size: 22px; }
+  .subtitle { font-size: 12px; margin-bottom: 18px; }
+  .nav a { display: inline-block; margin: 3px 2px; padding: 7px 12px; font-size: 12px; }
+  .nav a + a { margin-left: 2px; }
+  .form-row, .form-row-3 { grid-template-columns: 1fr; gap: 12px; }
+  .checkbox-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
+  .checkbox-grid label { font-size: 12px; padding: 10px 8px; }
+  select, input[type="text"], input[type="number"] { font-size: 16px; padding: 11px 12px; }
+  button.primary { padding: 15px; font-size: 15px; }
+  .score-card { padding: 22px 16px; }
   .score-value { font-size: 48px; }
+  .tier-badge { font-size: 12px; padding: 5px 12px; }
+  .breakdown { font-size: 11px; padding: 12px; }
+  .section-title { font-size: 13px; padding: 7px 10px; }
+  .match-group { padding: 8px 10px; }
+  .chip { font-size: 12px; padding: 6px 10px; min-height: 30px; display: inline-flex; align-items: center; }
+  .cta-card { padding: 18px 14px; }
+  .cta-title { font-size: 16px; flex-wrap: wrap; }
+  .logos-grid { grid-template-columns: repeat(3, 1fr); }
+  .logo-item { padding: 10px 4px; }
+}
+@media (max-width: 380px) {
+  .checkbox-grid { grid-template-columns: 1fr; }
+  .logos-grid { grid-template-columns: repeat(2, 1fr); }
 }
 </style>
 </head>

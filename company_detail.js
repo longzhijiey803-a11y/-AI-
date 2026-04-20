@@ -147,9 +147,15 @@ function ensureCompanyModal() {
     .cm-note { padding: 12px 14px; background: #fff8e1; border-left: 4px solid #ffb300; border-radius: 6px; font-size: 12px; color: #5d4037; line-height: 1.6; }
     .cm-section-note { font-size: 11px; color: #aaa; margin-top: 6px; }
     @media (max-width: 600px) {
-      .cm-modal { margin: 0; }
-      .cm-header, .cm-body { padding-left: 18px; padding-right: 18px; }
-      .cm-grid { grid-template-columns: 90px 1fr; }
+      .cm-overlay { padding: 0; align-items: stretch; }
+      .cm-modal { margin: 0; border-radius: 0; min-height: 100vh; max-width: 100%; }
+      .cm-header { padding: 20px 18px; border-radius: 0; }
+      .cm-body { padding: 16px 18px 24px; }
+      .cm-name { font-size: 18px; }
+      .cm-grid { grid-template-columns: 90px 1fr; font-size: 12px; }
+      .cm-links { grid-template-columns: 1fr 1fr; gap: 6px; }
+      .cm-link { padding: 12px 10px; font-size: 12px; min-height: 44px; }
+      .cm-close { width: 36px; height: 36px; font-size: 22px; }
     }
   `;
   document.head.appendChild(style);
