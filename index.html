@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>大学偏差値検索</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Hiragino Sans', 'Meiryo', sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  padding: 20px;
+  color: #333;
+}
+.container {
+  max-width: 720px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  padding: 40px;
+}
+h1 {
+  text-align: center;
+  color: #4a4a7a;
+  margin-bottom: 8px;
+  font-size: 28px;
+}
+.subtitle {
+  text-align: center;
+  color: #888;
+  margin-bottom: 32px;
+  font-size: 14px;
+}
+.form-group {
+  margin-bottom: 20px;
+}
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #4a4a7a;
+  font-size: 14px;
+}
+select, input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid #e0e0e8;
+  border-radius: 8px;
+  font-size: 16px;
+  background: #fafaff;
+  transition: border-color 0.2s;
+}
+select:focus, input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+select:disabled {
+  background: #f0f0f0;
+  color: #aaa;
+}
+.result {
+  margin-top: 32px;
+  padding: 28px;
+  background: linear-gradient(135deg, #f6f8ff 0%, #eef1ff 100%);
+  border-radius: 12px;
+  border: 2px solid #d0d6ff;
+  text-align: center;
+  display: none;
+}
+.result.show { display: block; }
+.result .univ-name {
+  font-size: 20px;
+  font-weight: 600;
+  color: #4a4a7a;
+  margin-bottom: 4px;
+}
+.result .faculty-name {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 16px;
+}
+.result .hensachi-label {
+  font-size: 13px;
+  color: #888;
+  letter-spacing: 2px;
+}
+.result .hensachi-value {
+  font-size: 56px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 8px 0;
+}
+.result .meta {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+.badge {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  background: #fff;
+  border: 1px solid #d0d6ff;
+  color: #4a4a7a;
+}
+.badge.type-国立 { background: #e3f2fd; border-color: #90caf9; color: #1565c0; }
+.badge.type-公立 { background: #f3e5f5; border-color: #ce93d8; color: #6a1b9a; }
+.badge.type-私立 { background: #fff3e0; border-color: #ffcc80; color: #e65100; }
+.search-box {
+  position: relative;
+  margin-bottom: 20px;
+}
+.stats {
+  margin-top: 24px;
+  text-align: center;
+  color: #aaa;
+  font-size: 12px;
+}
+.nav { text-align: center; margin-bottom: 16px; }
+.nav a {
+  color: #667eea;
+  text-decoration: none;
+  font-size: 13px;
+  padding: 4px 12px;
+  border: 1px solid #d0d6ff;
+  border-radius: 12px;
+}
+.nav a:hover { background: #f6f8ff; }
+.nav a + a { margin-left: 6px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>大学偏差値検索</h1>
+  <p class="subtitle">都道府県・大学・学部を選択すると偏差値が表示されます</p>
+
+  <div class="nav">
+    <a href="companies.html">就活偏差値ランキング</a>
+    <a href="diagnosis.html">就活偏差値診断</a>
+  </div>
+
+  <div class="form-group">
+    <label for="search">大学名で検索</label>
+    <input type="text" id="search" placeholder="例: 東京大学、慶應、北海道...">
+    <div id="search-results" style="margin-top:8px;max-height:200px;overflow-y:auto;border:1px solid #e0e0e8;border-radius:8px;display:none;background:#fff;"></div>
+  </div>
+
+  <div class="form-group">
+    <label for="pref">都道府県から探す</label>
+    <select id="pref"><option value="">選択してください</option></select>
+  </div>
+
+  <div class="form-group">
+    <label for="univ">大学</label>
+    <select id="univ" disabled><option value="">大学を選択</option></select>
+  </div>
+
+  <div class="form-group">
+    <label for="faculty">学部</label>
+    <select id="faculty" disabled><option value="">学部を選択</option></select>
+  </div>
+
+  <div id="result" class="result">
+    <div class="univ-name" id="r-univ"></div>
+    <div class="faculty-name" id="r-faculty"></div>
+    <div class="hensachi-label">偏差値</div>
+    <div class="hensachi-value" id="r-hensachi"></div>
+    <div class="meta">
+      <span class="badge" id="r-type"></span>
+      <span class="badge" id="r-pref"></span>
+    </div>
+  </div>
+
+  <p class="stats" id="stats"></p>
+</div>
+
+<script src="data.js"></script>
+<script>
+const prefSel = document.getElementById('pref');
+const univSel = document.getElementById('univ');
+const facSel = document.getElementById('faculty');
+const result = document.getElementById('result');
+
+const prefs = [...new Set(DATA.map(d => d.pref))];
+prefs.forEach(p => {
+  const opt = document.createElement('option');
+  opt.value = p; opt.textContent = p;
+  prefSel.appendChild(opt);
+});
+
+document.getElementById('stats').textContent = `収録データ: ${DATA.length}件 / ${new Set(DATA.map(d=>d.univ)).size}大学 / ${prefs.length}都道府県`;
+
+prefSel.addEventListener('change', () => {
+  univSel.innerHTML = '<option value="">大学を選択</option>';
+  facSel.innerHTML = '<option value="">学部を選択</option>';
+  facSel.disabled = true;
+  result.classList.remove('show');
+  if (!prefSel.value) { univSel.disabled = true; return; }
+  const univs = [...new Set(DATA.filter(d => d.pref === prefSel.value).map(d => d.univ))];
+  univs.forEach(u => {
+    const opt = document.createElement('option');
+    opt.value = u; opt.textContent = u;
+    univSel.appendChild(opt);
+  });
+  univSel.disabled = false;
+});
+
+univSel.addEventListener('change', () => {
+  facSel.innerHTML = '<option value="">学部を選択</option>';
+  result.classList.remove('show');
+  if (!univSel.value) { facSel.disabled = true; return; }
+  const facs = DATA.filter(d => d.pref === prefSel.value && d.univ === univSel.value);
+  facs.forEach(f => {
+    const opt = document.createElement('option');
+    opt.value = f.faculty; opt.textContent = f.faculty;
+    facSel.appendChild(opt);
+  });
+  facSel.disabled = false;
+});
+
+const searchInput = document.getElementById('search');
+const searchResults = document.getElementById('search-results');
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.trim();
+  if (!q) { searchResults.style.display = 'none'; searchResults.innerHTML=''; return; }
+  const matches = DATA.filter(d => d.univ.includes(q)).slice(0, 30);
+  if (matches.length === 0) { searchResults.style.display='block'; searchResults.innerHTML='<div style="padding:12px;color:#888;">該当なし</div>'; return; }
+  searchResults.innerHTML = matches.map((m,i) =>
+    `<div data-idx="${DATA.indexOf(m)}" style="padding:10px 14px;border-bottom:1px solid #f0f0f5;cursor:pointer;" onmouseover="this.style.background='#f6f8ff'" onmouseout="this.style.background=''">${m.univ} <span style="color:#888;font-size:13px;">${m.faculty} (${m.pref})</span></div>`
+  ).join('');
+  searchResults.style.display = 'block';
+  searchResults.querySelectorAll('div[data-idx]').forEach(el => {
+    el.addEventListener('click', () => {
+      const item = DATA[parseInt(el.dataset.idx)];
+      document.getElementById('r-univ').textContent = item.univ;
+      document.getElementById('r-faculty').textContent = item.faculty;
+      document.getElementById('r-hensachi').textContent = item.hensachi;
+      const tb = document.getElementById('r-type');
+      tb.textContent = item.type; tb.className = 'badge type-' + item.type;
+      document.getElementById('r-pref').textContent = item.pref;
+      result.classList.add('show');
+      searchResults.style.display = 'none';
+      searchInput.value = item.univ;
+    });
+  });
+});
+
+facSel.addEventListener('change', () => {
+  if (!facSel.value) { result.classList.remove('show'); return; }
+  const item = DATA.find(d => d.pref === prefSel.value && d.univ === univSel.value && d.faculty === facSel.value);
+  if (!item) return;
+  document.getElementById('r-univ').textContent = item.univ;
+  document.getElementById('r-faculty').textContent = item.faculty;
+  document.getElementById('r-hensachi').textContent = item.hensachi;
+  const typeBadge = document.getElementById('r-type');
+  typeBadge.textContent = item.type;
+  typeBadge.className = 'badge type-' + item.type;
+  document.getElementById('r-pref').textContent = item.pref;
+  result.classList.add('show');
+});
+</script>
+</body>
+</html>

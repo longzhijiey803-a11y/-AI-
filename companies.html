@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>就活偏差値ランキング</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Hiragino Sans', 'Meiryo', sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  padding: 20px;
+  color: #333;
+}
+.container {
+  max-width: 960px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  padding: 32px 36px;
+}
+h1 {
+  text-align: center;
+  color: #4a4a7a;
+  margin-bottom: 8px;
+  font-size: 28px;
+}
+.subtitle {
+  text-align: center;
+  color: #888;
+  margin-bottom: 24px;
+  font-size: 14px;
+}
+.search-box { margin-bottom: 16px; }
+input[type="text"] {
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid #e0e0e8;
+  border-radius: 8px;
+  font-size: 16px;
+  background: #fafaff;
+  transition: border-color 0.2s;
+}
+input[type="text"]:focus { outline: none; border-color: #667eea; }
+.tier-marker {
+  margin: 28px 0 12px 0;
+  text-align: center;
+  font-weight: 700;
+  color: #764ba2;
+  font-size: 13px;
+  letter-spacing: 3px;
+  padding: 10px;
+  background: linear-gradient(90deg, transparent, #f0e7ff, transparent);
+  border-radius: 8px;
+}
+.hensachi-group {
+  margin-bottom: 14px;
+  padding: 14px 18px;
+  background: linear-gradient(135deg, #f6f8ff 0%, #eef1ff 100%);
+  border-radius: 10px;
+  border-left: 4px solid #667eea;
+}
+.hensachi-label {
+  font-size: 22px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 8px;
+  display: inline-block;
+}
+.count-label {
+  color: #aaa;
+  font-size: 12px;
+  margin-left: 8px;
+}
+.companies { display: flex; flex-wrap: wrap; gap: 5px; }
+.company {
+  padding: 4px 10px;
+  background: #fff;
+  border-radius: 6px;
+  font-size: 13px;
+  border: 1px solid #d0d6ff;
+  color: #333;
+  transition: all 0.15s;
+  cursor: pointer;
+}
+.company:hover { background: #eef1ff; border-color: #667eea; }
+.company.highlight {
+  background: #fff3a0;
+  border-color: #e0a500;
+  font-weight: 600;
+  transform: scale(1.05);
+  box-shadow: 0 2px 6px rgba(224,165,0,0.3);
+}
+.company.dim { opacity: 0.25; }
+.arrow-up { color: #e65100; font-weight: 700; margin-left: 1px; }
+.arrow-down { color: #1976d2; font-weight: 700; margin-left: 1px; }
+.stats {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #eee;
+  text-align: center;
+  color: #888;
+  font-size: 12px;
+}
+.nav {
+  text-align: center;
+  margin-bottom: 16px;
+}
+.nav a {
+  color: #667eea;
+  text-decoration: none;
+  font-size: 13px;
+  padding: 4px 12px;
+  border: 1px solid #d0d6ff;
+  border-radius: 12px;
+}
+.nav a:hover { background: #f6f8ff; }
+.nav a + a { margin-left: 6px; }
+@media (max-width: 600px) {
+  .container { padding: 20px; margin: 10px auto; }
+  h1 { font-size: 22px; }
+  .company { font-size: 12px; padding: 3px 8px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>就活偏差値ランキング</h1>
+  <p class="subtitle">企業名で検索、または偏差値順に閲覧できます</p>
+
+  <div class="nav">
+    <a href="index.html">大学偏差値検索</a>
+    <a href="diagnosis.html">就活偏差値診断</a>
+  </div>
+
+  <div class="search-box">
+    <input type="text" id="search" placeholder="企業名で検索（例: 三菱、トヨタ、NTT、コンサル...）" autocomplete="off">
+  </div>
+
+  <div id="content"></div>
+  <p class="stats" id="stats"></p>
+</div>
+
+<script src="data_companies.js"></script>
+<script src="company_detail.js"></script>
+<script>
+function formatCompany(name) {
+  return name
+    .replace(/↑/g, '<span class="arrow-up">↑</span>')
+    .replace(/↓/g, '<span class="arrow-down">↓</span>');
+}
+
+function render(query) {
+  const content = document.getElementById('content');
+  content.innerHTML = '';
+  const q = (query || '').trim().toLowerCase();
+  let matchCount = 0;
+
+  COMPANIES.forEach(group => {
+    if (COMPANY_TIER_MARKERS[group.hensachi]) {
+      const marker = document.createElement('div');
+      marker.className = 'tier-marker';
+      marker.textContent = '━ ' + COMPANY_TIER_MARKERS[group.hensachi] + ' ━';
+      content.appendChild(marker);
+    }
+
+    const groupEl = document.createElement('div');
+    groupEl.className = 'hensachi-group';
+
+    const header = document.createElement('div');
+    const label = document.createElement('span');
+    label.className = 'hensachi-label';
+    label.textContent = '【' + group.hensachi + '】';
+    header.appendChild(label);
+    const count = document.createElement('span');
+    count.className = 'count-label';
+    count.textContent = group.companies.length + '社';
+    header.appendChild(count);
+    groupEl.appendChild(header);
+
+    const companiesEl = document.createElement('div');
+    companiesEl.className = 'companies';
+
+    group.companies.forEach(c => {
+      const span = document.createElement('span');
+      span.className = 'company';
+      span.innerHTML = formatCompany(c);
+      span.addEventListener('click', () => window.showCompanyDetail(c));
+      if (q) {
+        if (c.toLowerCase().includes(q)) {
+          span.classList.add('highlight');
+          matchCount++;
+        } else {
+          span.classList.add('dim');
+        }
+      }
+      companiesEl.appendChild(span);
+    });
+
+    groupEl.appendChild(companiesEl);
+    content.appendChild(groupEl);
+  });
+
+  const totalCount = COMPANIES.reduce((sum, g) => sum + g.companies.length, 0);
+  const statsEl = document.getElementById('stats');
+  if (q) {
+    statsEl.textContent = '検索: "' + query + '" / ' + matchCount + '件ヒット / 全' + totalCount + '社';
+  } else {
+    statsEl.textContent = '収録: ' + totalCount + '社 / 偏差値50〜80 / ↑↓は前回ランキングからの変動';
+  }
+}
+
+render();
+document.getElementById('search').addEventListener('input', (e) => {
+  render(e.target.value);
+});
+</script>
+</body>
+</html>
