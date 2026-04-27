@@ -232,41 +232,18 @@ button.primary:hover { background: var(--yt-red-hover); }
 .result.show { display: block; }
 .score-card {
   padding: 36px 24px 32px;
-  background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 50%, #2d1b4e 100%);
   border-radius: 16px;
-  border: none;
+  border: 1px solid var(--yt-border);
+  background: var(--yt-bg);
   text-align: center;
   margin-bottom: 20px;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 12px 40px rgba(102, 51, 204, 0.35), 0 0 0 1px rgba(255,255,255,0.06) inset;
-}
-.score-card::before {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  background: conic-gradient(from 0deg, #ff006e, #8338ec, #3a86ff, #06ffa5, #ffbe0b, #ff006e);
-  filter: blur(20px);
-  opacity: 0.35;
-  z-index: 0;
-  animation: rotate-glow 8s linear infinite;
-}
-.score-card::after {
-  content: '';
-  position: absolute;
-  inset: 2px;
-  background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 50%, #2d1b4e 100%);
-  border-radius: 14px;
-  z-index: 1;
 }
 .score-card > * { position: relative; z-index: 2; }
-@keyframes rotate-glow {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
 .score-label {
   font-size: 11px;
-  color: rgba(255,255,255,0.7);
+  color: var(--yt-text-2);
   letter-spacing: 4px;
   margin-bottom: 10px;
   font-weight: 600;
@@ -279,39 +256,305 @@ button.primary:hover { background: var(--yt-red-hover); }
   content: '';
   width: 24px;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(131,56,236,0.8));
+  background: var(--yt-border-strong);
 }
-.score-label::after { background: linear-gradient(90deg, rgba(131,56,236,0.8), transparent); }
 .score-value {
   font-size: 84px;
   font-weight: 700;
-  background: linear-gradient(135deg, #06ffa5 0%, #3a86ff 35%, #8338ec 70%, #ff006e 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--yt-text);
   line-height: 1;
   letter-spacing: -3px;
-  filter: drop-shadow(0 4px 20px rgba(131,56,236,0.5));
   font-family: 'Roboto', sans-serif;
-  animation: score-glow 2.5s ease-in-out infinite;
-}
-@keyframes score-glow {
-  0%, 100% { filter: drop-shadow(0 4px 20px rgba(131,56,236,0.5)); }
-  50% { filter: drop-shadow(0 4px 28px rgba(6,255,165,0.7)); }
 }
 .tier-badge {
   display: inline-block;
   padding: 8px 20px;
   margin-top: 16px;
-  background: linear-gradient(135deg, rgba(255,0,110,0.15), rgba(131,56,236,0.15));
-  border: 1px solid rgba(131,56,236,0.5);
+  background: var(--yt-bg-3);
+  border: 1px solid var(--yt-border-strong);
   border-radius: 20px;
   font-size: 14px;
   font-weight: 700;
-  color: #fff;
+  color: var(--yt-text);
   letter-spacing: 0.5px;
+}
+
+/* ===== Tier 1: 一般層（白ベース・シンプル） ===== */
+.score-card.tier-1 { background: #fafafa; border-color: #e5e5e5; }
+
+/* ===== Tier 2: 日東駒専･勝ち（淡い水色） ===== */
+.score-card.tier-2 {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border-color: #bae6fd;
+}
+.score-card.tier-2 .score-value { color: #0369a1; }
+.score-card.tier-2 .tier-badge {
+  background: #fff;
+  border-color: #38bdf8;
+  color: #0369a1;
+}
+
+/* ===== Tier 3: MARCH･勝ち（爽やかなティール） ===== */
+.score-card.tier-3 {
+  background: linear-gradient(135deg, #ecfeff 0%, #cffafe 50%, #a5f3fc 100%);
+  border-color: #67e8f9;
+  box-shadow: 0 4px 20px rgba(34, 211, 238, 0.18);
+}
+.score-card.tier-3 .score-value {
+  background: linear-gradient(135deg, #0891b2, #0e7490);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.score-card.tier-3 .tier-badge {
+  background: #fff;
+  border-color: #06b6d4;
+  color: #0e7490;
+  font-weight: 700;
+}
+
+/* ===== Tier 4: MARCH･大勝（ロイヤルブルー＋シマー） ===== */
+.score-card.tier-4 {
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 50%, #bfdbfe 100%);
+  border-color: #60a5fa;
+  box-shadow: 0 6px 24px rgba(59, 130, 246, 0.25);
+}
+.score-card.tier-4::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.6) 50%, transparent 70%);
+  animation: shimmer 3s ease-in-out infinite;
+  z-index: 1;
+}
+@keyframes shimmer {
+  0%, 100% { transform: translateX(-100%); }
+  50% { transform: translateX(100%); }
+}
+.score-card.tier-4 .score-value {
+  background: linear-gradient(135deg, #1e40af, #2563eb, #3b82f6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 2px 8px rgba(37, 99, 235, 0.3));
+}
+.score-card.tier-4 .tier-badge {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+}
+
+/* ===== Tier 5: 地帝早慶･大勝（ロイヤルパープル・グロー） ===== */
+.score-card.tier-5 {
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4c1d95 100%);
+  border: none;
+  box-shadow: 0 10px 36px rgba(76, 29, 149, 0.45);
+}
+.score-card.tier-5 .score-label { color: rgba(255,255,255,0.75); }
+.score-card.tier-5 .score-label::before,
+.score-card.tier-5 .score-label::after {
+  background: rgba(196, 181, 253, 0.6);
+}
+.score-card.tier-5::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background: radial-gradient(circle, rgba(168,85,247,0.5) 0%, transparent 60%);
+  animation: pulse-glow 3s ease-in-out infinite;
+  z-index: 0;
+}
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.1); }
+}
+.score-card.tier-5 .score-value {
+  background: linear-gradient(135deg, #e9d5ff 0%, #c084fc 50%, #a855f7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 24px rgba(168, 85, 247, 0.7));
+}
+.score-card.tier-5 .tier-badge {
+  background: rgba(168, 85, 247, 0.25);
+  border: 1px solid rgba(196, 181, 253, 0.6);
+  color: #fff;
+  text-shadow: 0 0 8px rgba(196, 181, 253, 0.8);
   backdrop-filter: blur(10px);
-  text-shadow: 0 0 10px rgba(131,56,236,0.6);
+}
+
+/* ===== Tier 6: 東京一工･勝ち（炎・オレンジゴールド） ===== */
+.score-card.tier-6 {
+  background: linear-gradient(135deg, #1c0d00 0%, #3d1a00 30%, #7c2d12 70%, #9a3412 100%);
+  border: none;
+  box-shadow: 0 12px 40px rgba(234, 88, 12, 0.5), 0 0 0 1px rgba(251, 146, 60, 0.3) inset;
+}
+.score-card.tier-6 .score-label { color: rgba(254, 215, 170, 0.9); }
+.score-card.tier-6 .score-label::before,
+.score-card.tier-6 .score-label::after {
+  background: linear-gradient(90deg, transparent, #fb923c);
+}
+.score-card.tier-6 .score-label::after {
+  background: linear-gradient(90deg, #fb923c, transparent);
+}
+.score-card.tier-6::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 80%, rgba(251, 146, 60, 0.4) 0%, transparent 40%),
+    radial-gradient(circle at 80% 20%, rgba(239, 68, 68, 0.4) 0%, transparent 40%);
+  animation: flame 4s ease-in-out infinite;
+  z-index: 0;
+}
+@keyframes flame {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+.score-card.tier-6 .score-value {
+  background: linear-gradient(135deg, #fef3c7 0%, #fbbf24 30%, #f97316 65%, #dc2626 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 30px rgba(251, 146, 60, 0.9));
+  animation: fire-flicker 2s ease-in-out infinite;
+}
+@keyframes fire-flicker {
+  0%, 100% { filter: drop-shadow(0 0 30px rgba(251, 146, 60, 0.9)); }
+  50% { filter: drop-shadow(0 0 40px rgba(239, 68, 68, 1)); }
+}
+.score-card.tier-6 .tier-badge {
+  background: linear-gradient(135deg, rgba(251, 146, 60, 0.3), rgba(239, 68, 68, 0.3));
+  border: 1px solid rgba(251, 191, 36, 0.7);
+  color: #fff;
+  text-shadow: 0 0 10px rgba(251, 191, 36, 1);
+  font-weight: 800;
+  backdrop-filter: blur(8px);
+}
+
+/* ===== Tier 7: 東京一工･大勝（黄金・ラグジュアリー） ===== */
+.score-card.tier-7 {
+  background: linear-gradient(135deg, #1a1200 0%, #422f00 40%, #78350f 100%);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  box-shadow: 0 16px 48px rgba(245, 158, 11, 0.55), 0 0 0 1px rgba(252, 211, 77, 0.4) inset;
+  position: relative;
+}
+.score-card.tier-7 .score-label { color: rgba(254, 240, 138, 0.95); letter-spacing: 5px; }
+.score-card.tier-7 .score-label::before,
+.score-card.tier-7 .score-label::after {
+  background: linear-gradient(90deg, transparent, #fbbf24, #fde68a);
+  width: 32px;
+}
+.score-card.tier-7 .score-label::after {
+  background: linear-gradient(90deg, #fde68a, #fbbf24, transparent);
+}
+.score-card.tier-7::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: conic-gradient(from 0deg, #fde047, #f59e0b, #fbbf24, #fde047, #f59e0b);
+  border-radius: 16px;
+  z-index: -1;
+  animation: gold-spin 6s linear infinite;
+}
+@keyframes gold-spin {
+  to { transform: rotate(360deg); }
+}
+.score-card.tier-7::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(253, 224, 71, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 70% 70%, rgba(251, 191, 36, 0.3) 0%, transparent 50%);
+  z-index: 0;
+}
+.score-card.tier-7 .score-value {
+  background: linear-gradient(135deg, #fef9c3 0%, #fde047 25%, #fbbf24 55%, #d97706 80%, #fbbf24 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 32px rgba(253, 224, 71, 1));
+  animation: gold-glow 2.5s ease-in-out infinite;
+  font-weight: 900;
+}
+@keyframes gold-glow {
+  0%, 100% { filter: drop-shadow(0 0 32px rgba(253, 224, 71, 1)) drop-shadow(0 0 12px rgba(251, 191, 36, 0.8)); }
+  50% { filter: drop-shadow(0 0 48px rgba(254, 240, 138, 1)) drop-shadow(0 0 20px rgba(217, 119, 6, 0.9)); }
+}
+.score-card.tier-7 .tier-badge {
+  background: linear-gradient(135deg, #fde047, #f59e0b);
+  border: none;
+  color: #422006;
+  font-weight: 900;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.6), 0 0 0 1px rgba(254, 240, 138, 0.8) inset;
+  letter-spacing: 1px;
+}
+
+/* ===== Tier 8: 最上位（虹色オーラ・最高峰） ===== */
+.score-card.tier-8 {
+  background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 50%, #2d1b4e 100%);
+  border: none;
+  box-shadow: 0 20px 60px rgba(102, 51, 204, 0.6), 0 0 0 1px rgba(255,255,255,0.08) inset;
+}
+.score-card.tier-8::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  background: conic-gradient(from 0deg, #ff006e, #ffbe0b, #06ffa5, #3a86ff, #8338ec, #ff006e);
+  filter: blur(24px);
+  opacity: 0.55;
+  z-index: 0;
+  animation: rotate-glow 8s linear infinite;
+}
+.score-card.tier-8::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 50%, #2d1b4e 100%);
+  border-radius: 14px;
+  z-index: 1;
+}
+@keyframes rotate-glow {
+  to { transform: rotate(360deg); }
+}
+.score-card.tier-8 .score-label {
+  color: rgba(255,255,255,0.85);
+  letter-spacing: 5px;
+}
+.score-card.tier-8 .score-label::before,
+.score-card.tier-8 .score-label::after {
+  background: linear-gradient(90deg, transparent, rgba(131,56,236,0.9));
+  width: 28px;
+}
+.score-card.tier-8 .score-label::after {
+  background: linear-gradient(90deg, rgba(131,56,236,0.9), transparent);
+}
+.score-card.tier-8 .score-value {
+  background: linear-gradient(135deg, #06ffa5 0%, #3a86ff 30%, #8338ec 60%, #ff006e 90%, #ffbe0b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 4px 24px rgba(131,56,236,0.7));
+  animation: rainbow-glow 3s ease-in-out infinite;
+  font-weight: 900;
+}
+@keyframes rainbow-glow {
+  0% { filter: drop-shadow(0 4px 24px rgba(131,56,236,0.7)); }
+  33% { filter: drop-shadow(0 4px 28px rgba(6,255,165,0.9)); }
+  66% { filter: drop-shadow(0 4px 28px rgba(255,0,110,0.9)); }
+  100% { filter: drop-shadow(0 4px 24px rgba(131,56,236,0.7)); }
+}
+.score-card.tier-8 .tier-badge {
+  background: linear-gradient(135deg, rgba(255,0,110,0.25), rgba(131,56,236,0.25), rgba(6,255,165,0.25));
+  border: 1px solid rgba(131,56,236,0.7);
+  color: #fff;
+  text-shadow: 0 0 12px rgba(131,56,236,0.9);
+  backdrop-filter: blur(10px);
+  font-weight: 900;
+  letter-spacing: 1px;
 }
 .breakdown {
   margin-top: 16px;
@@ -763,14 +1006,14 @@ function calcHensachi(profile) {
 }
 
 function getTier(score) {
-  if (score >= 78) return '最上位 (外資金融・商社トップ級)';
-  if (score >= 75) return '東京一工･大勝レベル';
-  if (score >= 70) return '東京一工･勝ちレベル';
-  if (score >= 66) return '地帝早慶･大勝レベル';
-  if (score >= 61) return 'MARCH･大勝レベル';
-  if (score >= 56) return 'MARCH･勝ちレベル';
-  if (score >= 50) return '日東駒専･勝ちレベル';
-  return '一般層';
+  if (score >= 78) return { label: '最上位 (外資金融・商社トップ級)', level: 8 };
+  if (score >= 75) return { label: '東京一工･大勝レベル', level: 7 };
+  if (score >= 70) return { label: '東京一工･勝ちレベル', level: 6 };
+  if (score >= 66) return { label: '地帝早慶･大勝レベル', level: 5 };
+  if (score >= 61) return { label: 'MARCH･大勝レベル', level: 4 };
+  if (score >= 56) return { label: 'MARCH･勝ちレベル', level: 3 };
+  if (score >= 50) return { label: '日東駒専･勝ちレベル', level: 2 };
+  return { label: '一般層', level: 1 };
 }
 
 function categorize(score, companyH) {
@@ -793,10 +1036,10 @@ function renderResult(profile, calc) {
   const tier = getTier(score);
 
   let html = '';
-  html += '<div class="score-card">';
+  html += '<div class="score-card tier-' + tier.level + '">';
   html += '<div class="score-label">想定 就活偏差値</div>';
   html += '<div class="score-value">' + score.toFixed(1) + '</div>';
-  html += '<div class="tier-badge">' + tier + '</div>';
+  html += '<div class="tier-badge">' + tier.label + '</div>';
   html += '<div class="breakdown">';
   calc.breakdown.forEach(b => {
     const val = b.type === 'base' ? b.value.toFixed(1) : (b.value > 0 ? '+' : '') + b.value;
