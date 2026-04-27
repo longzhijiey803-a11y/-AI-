@@ -79,23 +79,41 @@ select:focus, input:focus { outline: none; border-color: #667eea; }
 .hint { font-size: 11px; color: #999; margin-top: 4px; }
 .suggest {
   position: relative;
-  margin-top: 4px;
-  max-height: 180px;
+  margin-top: 6px;
+  max-height: 220px;
   overflow-y: auto;
-  border: 1px solid #e0e0e8;
-  border-radius: 6px;
+  border: 2px solid #667eea;
+  border-radius: 10px;
   background: #fff;
   display: none;
   z-index: 10;
+  box-shadow: 0 6px 20px rgba(102,126,234,0.18);
 }
 .suggest-item {
-  padding: 8px 12px;
+  padding: 12px 14px;
   cursor: pointer;
-  font-size: 13px;
-  border-bottom: 1px solid #f0f0f5;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2c2c3e;
+  border-bottom: 1px solid #eef0fb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  transition: background 0.12s;
 }
-.suggest-item:hover { background: #f6f8ff; }
-.suggest-item .hen { color: #888; font-size: 11px; margin-left: 8px; }
+.suggest-item:last-child { border-bottom: none; }
+.suggest-item:hover, .suggest-item:active { background: #eef1ff; }
+.suggest-item .hen {
+  color: #fff;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 12px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
 .checkbox-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -345,6 +363,9 @@ button.primary:hover { opacity: 0.9; }
   .cta-title { font-size: 16px; flex-wrap: wrap; }
   .logos-grid { grid-template-columns: repeat(3, 1fr); }
   .logo-item { padding: 10px 4px; }
+  .suggest { max-height: 260px; }
+  .suggest-item { padding: 14px 14px; font-size: 15px; }
+  .suggest-item .hen { font-size: 13px; padding: 5px 11px; }
 }
 @media (max-width: 380px) {
   .checkbox-grid { grid-template-columns: 1fr; }
@@ -584,8 +605,8 @@ function calcHensachi(profile) {
     { key: 'taiiku', label: '体育会経験', v: 3 },
     { key: 'ryugaku', label: '留学経験', v: 1 },
     { key: 'intern', label: '長期インターン', v: 1 },
-    { key: 'volunteer', label: 'ボランティア', v: 1 },
-    { key: 'zemi', label: 'ゼミでの発表', v: 1 }
+    { key: 'volunteer', label: 'ボランティア', v: 0.5 },
+    { key: 'zemi', label: 'ゼミでの発表', v: 0.5 }
   ];
   attrBonus.forEach(a => {
     if (profile.attrs[a.key]) {
