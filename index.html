@@ -1037,7 +1037,10 @@ function calcHensachi(profile) {
     type: 'base'
   });
 
-  if (profile.edu === '修士卒' || profile.edu === '博士卒') {
+  if (profile.edu === '修士卒') {
+    score += 1;
+    breakdown.push({ label: '学歴 ' + profile.edu, value: 1, type: 'pos' });
+  } else if (profile.edu === '博士卒') {
     score += 2;
     breakdown.push({ label: '学歴 ' + profile.edu, value: 2, type: 'pos' });
   } else {
